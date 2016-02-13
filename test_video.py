@@ -12,8 +12,7 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
-cascade_fn="haarcascade_frontalface_default.xml"
-cascade= cv2.CascadeClassifier(cascade_fn)
+
 # allow the camera to warmup
 time.sleep(0.1)
 
@@ -22,11 +21,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# grab the raw NumPy array representing the image, then initialize the timestamp
 	# and occupied/unoccupied text
 	image = frame.array
-        gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-        gray = cv2.equalizeHist(gray)
-        rects = cascade.detectMultiScale(gray, 1.1,2)
-        for x,y,width,height in rects:
-                cv2.rectangle(image, (x,y),(x+width,y+height),(255,0,0),2)
+
 	# show the frame
 	cv2.imshow("Frame", image)
 	key = cv2.waitKey(1) & 0xFF
