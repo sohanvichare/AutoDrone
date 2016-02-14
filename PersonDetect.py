@@ -96,9 +96,9 @@ time.sleep(0.1)
 hog.setSVMDetector( cv2.HOGDescriptor_getDefaultPeopleDetector() )
 '''
 
-'''cascPathFace = 'haarcascades_frontalface_alt.xml'
+cascPathFace = 'haarcascades_frontalface_alt.xml'
 faceCascade = cv2.CascadeClassifier(cascPathFace)
-
+'''
 facesNumDic = {0:0}
 fullBodyNumDic = {0:0}
 '''
