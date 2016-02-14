@@ -12,11 +12,11 @@ import time
 
 
 #define functions
-def inside(r, q):
+'''def inside(r, q):
     rx, ry, rw, rh = r
     qx, qy, qw, qh = q
     return rx > qx and ry > qy and rx + rw < qx + qw and ry + rh < qy + qh
-
+'''
 #define webcam detection function
 def detect():
     for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -86,8 +86,6 @@ camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
-cascade_fn="haarcascade_frontalface_default.xml"
-cascade= cv2.CascadeClassifier(cascade_fn)
 # allow the camera to warmup
 time.sleep(0.1)
 
@@ -102,8 +100,28 @@ faceCascade = cv2.CascadeClassifier(cascPathFace)
 facesNumDic = {0:0}
 fullBodyNumDic = {0:0}
 '''
-detect()
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    ret = frame.array
+    img = frame.array
+    '''img = cv2.resize(img, (0,0), fx=0.5, fy=0.5)'''
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.equalizeHist(gray)
 
+    faces = faceCascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(30, 30),
+        flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+    )
+
+    # Draw a rectangle around the faces
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    cv2.imshow('Person and Face Recognition + Counting', img)
+    rawCapture.truncate(0)
+    if cv2.waitKey(20) == 27:
+        break
 '''facesNumSorted = sorted(facesNumDic.items(), key=operator.itemgetter(0))
 fullBodyNumSorted = sorted(fullBodyNumDic.items(), key=operator.itemgetter(0))
 facesNumSortedValue = sorted(facesNumDic.items(), key=operator.itemgetter(1))
