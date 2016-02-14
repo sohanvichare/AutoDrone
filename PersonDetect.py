@@ -38,7 +38,7 @@ def detect():
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-        rects, rand = hog.detectMultiScale(gray, winStride=(8,8), padding=(32,32), scale=1.05)
+        '''rects, rand = hog.detectMultiScale(gray, winStride=(8,8), padding=(32,32), scale=1.05)
 
         for x, y, width, height in rects:
             cv2.rectangle(img, (x, y), (x+width, y+height), (255,0,0), 2)
@@ -73,7 +73,7 @@ def detect():
             facesNumDic[len(found_faces_filtered)] = facesNumDic[len(found_faces_filtered)] + 1
         else:
             ind = len(found_faces_filtered)
-            facesNumDic[ind] = 0
+            facesNumDic[ind] = 0'''
 
         cv2.imshow('Person and Face Recognition + Counting', img)
         rawCapture.truncate(0)
@@ -92,19 +92,19 @@ cascade= cv2.CascadeClassifier(cascade_fn)
 time.sleep(0.1)
 
 
-hog = cv2.HOGDescriptor()
+'''hog = cv2.HOGDescriptor()
 hog.setSVMDetector( cv2.HOGDescriptor_getDefaultPeopleDetector() )
+'''
 
-
-cascPathFace = 'haarcascades_frontalface_alt.xml'
+'''cascPathFace = 'haarcascades_frontalface_alt.xml'
 faceCascade = cv2.CascadeClassifier(cascPathFace)
 
 facesNumDic = {0:0}
 fullBodyNumDic = {0:0}
-
+'''
 detect()
 
-facesNumSorted = sorted(facesNumDic.items(), key=operator.itemgetter(0))
+'''facesNumSorted = sorted(facesNumDic.items(), key=operator.itemgetter(0))
 fullBodyNumSorted = sorted(fullBodyNumDic.items(), key=operator.itemgetter(0))
 facesNumSortedValue = sorted(facesNumDic.items(), key=operator.itemgetter(1))
 fullBodyNumSortedValue = sorted(fullBodyNumDic.items(), key=operator.itemgetter(1))
@@ -150,7 +150,7 @@ if mostFaces > mostFullBodies:
 
 if mostFaces == mostFullBodies:
     print('Number of people = ' + str(mostFaces))
-
+'''
 cam.release()
 
 cv2.destroyAllWindows()
