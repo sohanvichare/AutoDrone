@@ -109,7 +109,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     faces = faceCascade.detectMultiScale(
         gray,
-        scaleFactor=1.1,
+        scaleFactor=1.2,
         minNeighbors=5,
         minSize=(30, 30),
         flags=cv2.cv.CV_HAAR_SCALE_IMAGE
