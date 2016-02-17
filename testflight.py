@@ -2,17 +2,11 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative
 import time
 
 
-#Set up option parsing to get connection string
-import argparse
-parser = argparse.ArgumentParser(description='Print out vehicle state information. Connects to SITL on local PC by default.')
-parser.add_argument('--connect', default='127.0.0.1:14550',
-                   help="vehicle connection target. Default '127.0.0.1:14550'")
-args = parser.parse_args()
-
+#
 
 # Connect to the Vehicle
-print 'Connecting to vehicle on: %s' % args.connect
-vehicle = connect(args.connect, wait_ready=True)
+print 'Connecting to vehicle;'
+vehicle = connect("/dev/ttyACM0", wait_ready=True)
 
 
 def arm_and_takeoff(aTargetAltitude):
