@@ -87,9 +87,8 @@ cmds = vehicle.commands
 cmds.download()
 cmds.wait_ready()
 home = vehicle.home_location
-arm_and_takeoff(1);
-vehicle.airspeed=3
-vehicle.simple_goto(home)
+arm_and_takeoff(2);
+vehicle.mode    = VehicleMode("RTL")
 countdownAlt(30);
 sitl.stop();
 print("Done")
