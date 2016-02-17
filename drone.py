@@ -1,5 +1,5 @@
 from dronekit import connect
-vehicle = connect('/dev/ttyACM0', wait_ready=True)
+vehicle = connect("/dev/ttyACM0", wait_ready=True)
 
 # vehicle is an instance of the Vehicle class
 print "Global Location: %s" % vehicle.location.global_frame
