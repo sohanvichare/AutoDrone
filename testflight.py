@@ -1,13 +1,30 @@
 from dronekit import connect, VehicleMode, LocationGlobalRelative
 import time
 
-
-#
-
 # Connect to the Vehicle
 print 'Connecting to vehicle;'
 vehicle = connect("/dev/ttyACM0", wait_ready=True)
 
+# vehicle is an instance of the Vehicle class
+print "Global Location: %s" % vehicle.location.global_frame
+print "Global Location (relative altitude): %s" % vehicle.location.global_relative_frame
+print "Local Location: %s" % vehicle.location.local_frame    #NED
+print "Attitude: %s" % vehicle.attitude
+print "Velocity: %s" % vehicle.velocity
+print "GPS: %s" % vehicle.gps_0
+print "Groundspeed: %s" % vehicle.groundspeed
+print "Airspeed: %s" % vehicle.airspeed
+print "Battery: %s" % vehicle.battery
+print "EKF OK?: %s" % vehicle.ekf_ok
+print "Last Heartbeat: %s" % vehicle.last_heartbeat
+print "Rangefinder: %s" % vehicle.rangefinder
+print "Rangefinder distance: %s" % vehicle.rangefinder.distance
+print "Rangefinder voltage: %s" % vehicle.rangefinder.voltage
+print "Heading: %s" % vehicle.heading
+print "Is Armable?: %s" % vehicle.is_armable
+print "System status: %s" % vehicle.system_status.state
+print "Mode: %s" % vehicle.mode.name    # settable
+print "Armed: %s" % vehicle.armed
 
 def arm_and_takeoff(aTargetAltitude):
     """
@@ -43,11 +60,29 @@ def arm_and_takeoff(aTargetAltitude):
             print "Reached target altitude"
             break
         time.sleep(1)
+        
+def countdown(amtTime):
+    i = 0
+    while i <= amtTime:
+        print("COUNTDOWN: "+str(amtTime-i))
+        time.sleep(1)
+        i = i+1
 
-arm_and_takeoff(1)
+def countdownAlt(amTime):
+    o = 0
+    while o <= amTime:
+        print("COUNTDOWN: "+str(amTime-o))
+        print " Altitude: ", vehicle.location.global_relative_frame.alt
+        time.sleep(1)
+        o = o+1
+
+countdown(15)
 
 print "Set default/target airspeed to 3"
-vehicle.airspeed=3
+vehicle.airspeed=1
+vehicle.groundspeed =1
+
+arm_and_takeoff(1)
 
 print "Returning to Launch"
 vehicle.mode    = VehicleMode("RTL")

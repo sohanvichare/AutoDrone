@@ -87,6 +87,8 @@ cmds = vehicle.commands
 cmds.download()
 cmds.wait_ready()
 home = vehicle.home_location
+print home.lat
+print home.lon
 arm_and_takeoff(2);
 vehicle.mode    = VehicleMode("RTL")
 countdownAlt(30);
