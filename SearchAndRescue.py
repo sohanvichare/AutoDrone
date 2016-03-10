@@ -7,6 +7,8 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative
 from pymavlink import mavutil # Needed for command message definitions
 import time
 from dronekit_sitl import SITL
+from imutils.object_detection import non_max_suppression
+
 
 
 #defines drone variable
@@ -16,6 +18,9 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
 rawCapture = PiRGBArray(camera)
+hog = cv2.HOGDescriptor()
+hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+
 
 
 #define location class that stores latitude and longitude
@@ -112,13 +117,13 @@ def takePicture():
 
 # gets the number of people in the image
 def readImage(image):
-    img = cv2.imread(image)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    (rects, weights) = hog.detectMultiScale(image, winStride=(4, 4),
+	padding=(8, 8), scale=1.05)
+    rects = np.array([[x, y, x + w, y + h] for (x, y, w, h) in rects])
+    pick = non_max_suppression(rects, probs=None, overlapThresh=0.65)
     count=0
-    for (x,y,w,h) in faces:
-        count=count+1
+    for (xA, yA, xB, yB) in pick:
+	    count=count+1
     return count
 
 def findNumPeople():
